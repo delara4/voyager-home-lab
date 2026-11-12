@@ -1,0 +1,16 @@
+Date: November 10, 2026
+System: Proxmox VE host, Tailscale, macOS client
+Status: Access restored; underlying cause not confirmed
+Problem
+I temporarily lost access to Voyager over Tailscale. Both SSH and the Proxmox web dashboard were unreachable from my MacBook, so I needed to determine whether the issue was on the server, the private network, or the client.
+Investigation
+Voyager's Tailscale service was running and its Tailscale address was still assigned. The MacBook appeared as offline in the Tailscale peer information, with a last-seen time of several days earlier. That pointed toward a client connectivity issue, but did not by itself explain every symptom.
+Resolution and verification
+I reconnected Tailscale on the MacBook and tested the connection again. SSH on port 22 and the Proxmox dashboard on port 8006 became reachable. I also tested access while the MacBook was using a phone hotspot, confirming that remote administration worked outside the home network.
+Outcome
+Remote access was restored without rebuilding the server or changing its management address. I did not confirm whether a separate LAN interruption or host power-management event contributed to the original failure.
+Lessons learned
+- Check the client and server's Tailscale status before changing firewall or server settings.
+- Test individual services rather than assuming all connectivity failures share one cause.
+- Verify remote access from a genuinely separate network.
+- Restored access is a successful recovery, but it does not automatically establish root cause.
