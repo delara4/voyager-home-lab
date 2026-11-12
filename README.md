@@ -1,61 +1,97 @@
-# Voyager — Home Lab & Infrastructure Engineering 
+# Project Voyager — Infrastructure Homelab
 
-A personal infrastructure lab built on a Dell Inspiron 3542 to develop practical skills in Linux system administration, virtualization, networking, backend deployment, and infrastructure troubleshooting.
+**A hands-on Linux infrastructure and virtualization lab focused on systems administration, networking, troubleshooting, automation, and continuous learning.**
 
-# Project Overview
+## Overview
 
-Voyager is a self-hosted learning environment running Proxmox VE. The project focuses on building, configuring, testing, and documenting infrastructure while developing hands-on experience with tools and workflows used in IT operations and software engineering.
+Project Voyager is a self-hosted infrastructure lab built on a repurposed Dell Inspiron laptop running Proxmox VE.
 
+The goal is to develop practical engineering skills by building systems, understanding their behavior, safely introducing failures, diagnosing problems, restoring functionality, and documenting the results.
 
-System - Dell Inspiron 3542
-CPU - Intel Core i3-4030U, 2 cores
-Memory - 8 GB RAM
-Storage - 500 GB HDD 
-Hypervisor - Proxmox VE
-Hostname - Voyager
+**Engineering philosophy:**
 
+Build → Understand → Break Safely → Diagnose → Repair → Automate → Document
 
-# Planned Technology Stack
+## Infrastructure
 
-Virtualization: Proxmox VE, KVM/QEMU
+| Component | Configuration |
+|---|---|
+| Host | Dell Inspiron 3542 |
+| CPU | Intel Core i3-4030U |
+| Memory | 8 GB RAM |
+| Storage | ~500 GB HDD |
+| Hypervisor | Proxmox VE 9.x |
+| Host OS | Debian 13 |
+| Guest OS | Rocky Linux 9 Minimal |
+| VM Resources | 2 vCPU, 2 GB RAM, 32 GB disk |
+| Networking | Linux Bridge (vmbr0), VirtIO |
+| Remote Access | SSH, Tailscale |
+| Administration | macOS Terminal, Proxmox Web UI |
 
-Linux: Rocky Linux
+## Completed Milestones
 
-Networking: TCP/IP, static addressing, Linux bridges
+### Phase 1 — Host Infrastructure
+- Installed Proxmox VE on bare-metal hardware.
+- Configured management networking and Linux bridge.
+- Enabled SSH public-key authentication.
+- Established remote access through Tailscale.
+- Resolved APT repository configuration errors.
+- Diagnosed and corrected unexpected host suspension when the laptop lid closed.
 
-Containers: Proxmox LXC, Podman
+### Phase 2 — Virtualization
+- Provisioned Rocky Linux 9 Minimal as a Proxmox VM.
+- Allocated virtual CPU, memory, and disk resources.
+- Configured VirtIO networking through the host bridge.
+- Established SSH connectivity from the administration workstation.
+- Investigated a duplicate IP address affecting the hypervisor and VM.
+- Configured a DHCP reservation and restored network connectivity.
 
-Backend: Node.js, REST APIs, PostgreSQL
+### Phase 3 — Connectivity & Incident Response
+- Investigated remote SSH and Proxmox dashboard timeouts.
+- Checked host and Tailscale connectivity.
+- Restored remote access and verified connectivity using an external network.
+- Documented incident symptoms, diagnostic steps, and recovery results.
 
-Automation: Bash, Git, GitHub Actions
+## Technical Skills Practiced
 
-Operations: Logs, service management, monitoring, backups
+- Linux systems administration
+- Type-1 virtualization and VM provisioning
+- TCP/IP networking and DHCP troubleshooting
+- Linux bridges and virtual network interfaces
+- SSH authentication and remote administration
+- VPN-based remote connectivity
+- System services and configuration management
+- Incident investigation and technical documentation
 
+## Lessons Learned
 
-# Repository Structure
-Directories and documentation will be added as each component is implemented.
+- Network connectivity depends on correct addressing across both the hypervisor and its guests.
+- DHCP behavior must be understood even when using static management addresses.
+- Remote-access failures require checking both endpoints before assuming the server is down.
+- Logs, system state, and configuration evidence are more reliable than assumptions.
+- Documentation turns one-time fixes into reusable operational knowledge.
 
+## Roadmap
 
-# Engineering Approach
+**Next Milestone — Application Hosting**
+- Deploy a lightweight web application on Rocky Linux.
+- Configure the application as a managed Linux service.
+- Verify access from another device.
+- Perform controlled service failure and recovery tests.
 
-For each major milestone, I aim to document:
+**Future Milestones**
+- Podman containerization.
+- Monitoring and automated health checks.
+- Backup and restore testing.
+- Linux firewall and SELinux configuration.
+- Application and database deployment.
+- Bash/Python automation.
+- CI/CD and reproducible deployment workflows.
 
-Objective and technical requirements
+## Project Status
 
-Hardware and software configuration
+**Active Development — November 2026**
 
-Implementation steps and important decisions
-
-Validation and test results
-
-Issues encountered and troubleshooting process
-
-Lessons learned and possible improvements
-
-# Goals
-
-Build a reliable, maintainable home lab while gaining practical experience in infrastructure administration, Linux security, service deployment, and troubleshooting.
-
-Future work may include infrastructure automation, monitoring and alerting, containerized services, and self-hosted AI applications.
+Current focus: Linux virtualization, networking, remote administration, and preparation for application deployment.
 
 
