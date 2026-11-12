@@ -1,0 +1,20 @@
+Date: November 10 2026
+System: Proxmox VE 9.x, Rocky Linux 9 Minimal, eero router
+Status: Resolved; DHCP range follow-up pending
+Overview
+I created my first Rocky Linux VM on Voyager to build a separate environment for Linux administration and future application deployments. The VM was allocated two virtual CPUs, 2 GiB of RAM, and a 32 GiB disk. Its VirtIO network interface (ens18) was connected to the Proxmox bridge (vmbr0).
+Problem
+After installation, the Rocky VM appeared to have the same IPv4 address as the Proxmox host. Since both systems were attached to the same network, the duplicate address could interfere with access to either machine.
+Investigation
+I checked the VM's network configuration and NetworkManager lease information. The logs confirmed that the guest had received a DHCP lease using the same address as Voyager's management interface. I then matched the VM's virtual MAC address to the device shown in the eero router app to make sure I was changing the correct reservation.
+Resolution
+I disconnected the VM's network interface while correcting the address assignment. In the eero app, I reserved a different LAN address for the Rocky VM (192.168.4.33), then reconnected the interface and checked its new address.
+Verification
+The Rocky VM used its separate address, and I successfully connected to it over SSH from the MacBook. The Proxmox host retained its management address (192.168.4.30). This confirmed that the host and guest could be administered independently.
+Follow-up
+I still need to confirm how the router's DHCP allocation range interacts with Voyager's manually configured static address. The original lease conflict was verified, but the eero app's automatic addressing settings did not fully explain why that address was assigned.
+Lessons learned
+- A bridged VM is a separate network device and needs its own IP address.
+- DHCP lease logs and MAC addresses are more reliable than guessing which device is which.
+- Isolating a conflicting interface can make network troubleshooting safer.
+- Verify the final fix with a real SSH connection, not just a displayed IP address.
