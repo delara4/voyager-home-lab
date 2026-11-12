@@ -1,0 +1,20 @@
+Date: October 20, 2026
+System: Proxmox VE host (voyager) and macOS administration client
+Status: SSH access working; effective firewall enforcement still requires verification
+Goal
+Set up SSH key authentication so I could administer Voyager from my MacBook without relying on password entry for every login.
+Setup and troubleshooting
+I generated a passphrase-protected ED25519 key pair on macOS and configured SSH to work with ssh-agent and Keychain. My initial connection to the host on port 22 was refused. I checked that the SSH service was listening, then investigated the Proxmox firewall configuration. Temporarily stopping the firewall during testing allowed me to proceed with key setup.
+
+I installed the public key on the host and added an inbound SSH allow rule to the Proxmox cluster firewall configuration:
+[RULES]
+IN SSH(ACCEPT)
+I then restored the firewall service and verified SSH access.
+Outcome
+I could connect to Voyager using my SSH key from the MacBook. The private key remained on the client and was protected by its passphrase.
+Remaining verification
+The presence of an allow rule and an active proxmox-firewall service does not by itself prove which rules the host is enforcing. The effective firewall backend, rule scope, and inbound policy still need a dedicated review. Root SSH access and the overall access policy also deserve a separate hardening pass.
+Lessons learned
+- Test SSH service availability, network reachability, and firewall behavior separately.
+- Public-key authentication and network access controls solve different problems.
+- Keep a local-console recovery path when changing remote-access settings.
