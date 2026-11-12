@@ -1,0 +1,20 @@
+Date: October 22, 2026
+System: Proxmox VE 9 / Debian 13 (Trixie)
+Status: Resolved
+Overview
+While preparing Voyager for Tailscale, I ran into package installation errors. APT could not refresh its package lists because some configured repositories were unavailable or incorrect.
+Investigation
+The update output included 401 Unauthorized errors from Proxmox enterprise repositories and 404 Not Found errors from an incorrect Debian security repository URL. Editing /etc/apt/sources.list alone did not solve the problem because additional repository definitions were still present under /etc/apt/sources.list.d/, including .sources files.
+Resolution
+I inspected the active repository definitions, backed up the configuration, removed or corrected conflicting entries, and configured the appropriate Debian and Proxmox no-subscription repositories. I then refreshed APT and installed the tools needed for the Tailscale setup.
+
+Useful verification commands:
+apt-get clean
+apt-get update
+apt-get install -y curl
+Outcome
+apt-get update completed successfully, and I was able to continue installing Tailscale. No reinstall of Proxmox was needed.
+Lessons learned
+- APT reads repository definitions from both sources.list and sources.list.d/.
+- HTTP errors help narrow the issue: 401 suggests an authorization problem; 404 indicates the requested resource was not found.
+- Back up configuration files and inspect all active sources before changing repositories.
