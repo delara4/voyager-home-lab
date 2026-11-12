@@ -1,0 +1,21 @@
+Date: October 22, 2026
+System: Proxmox VE 9.x / Debian 13
+Status: Installed and tested; access-control review pending
+Goal
+Access Voyager securely from outside my home network while keeping normal SSH authentication and local management access available.
+Implementation
+After fixing the APT repositories, I installed Tailscale on the Proxmox host, enabled its tailscaled service, and joined the host to my tailnet. I kept the existing ED25519 SSH authentication rather than enabling Tailscale SSH.
+Verification
+From my MacBook, I confirmed that Voyager responded over its Tailscale address (100.89.77.78). I tested ICMP connectivity, checked that TCP port 22 was reachable, logged in over SSH, and opened the Proxmox web interface on port 8006.
+
+One useful connectivity test was:
+nc -vz -w 5 100.89.77.78 22
+An early nc attempt failed because I had omitted the port argument. Correcting the command helped separate a test-command mistake from a server problem.
+Outcome
+SSH and the Proxmox dashboard were accessible over Tailscale. This gave me another management path beyond the local LAN.
+Remaining work
+Review tailnet access rules, confirm the effective Proxmox firewall policy, and test a recovery procedure before treating remote access as fully hardened. Successful connectivity does not mean the access permissions are least-privilege.
+Lessons learned
+- Verify network reachability and application access independently.
+- Tailscale provides a private network path; SSH still handles server authentication in this setup.
+- A successful connection test confirms functionality, not necessarily security policy enforcement.
