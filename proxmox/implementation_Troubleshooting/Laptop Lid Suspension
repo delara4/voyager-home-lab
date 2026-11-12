@@ -1,0 +1,18 @@
+Date: October 20, 2026
+System: Dell Inspiron 3542 / Proxmox VE
+Status: Configuration updated; lid-closed access subsequently tested successfully
+Problem
+Closing the laptop lid caused the Proxmox dashboard and remote access to disappear. When I reopened the lid, access returned after roughly one or two minutes. The behavior suggested that the laptop was suspending, although I did not establish this conclusively from system logs.
+Resolution
+I backed up /etc/systemd/logind.conf and changed the lid-switch handling so the host would ignore lid-close events instead of suspending. The recorded configuration included:
+[Login]
+HandleLidSwitch=ignore
+HandleLidSwitchExternalPower=ignore
+HandleLidSwitchDocked=ignore
+I applied the change and tested access with the lid closed.
+Outcome
+Voyager remained reachable with the lid closed, allowing the laptop to operate as a headless server.
+Lessons learned
+- Laptop power-management defaults are not always appropriate for a server.
+- A symptom can strongly suggest a cause without conclusively proving it.
+- Back up configuration files and test changes under the conditions that originally caused the problem.
