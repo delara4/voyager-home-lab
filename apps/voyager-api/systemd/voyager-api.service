@@ -1,0 +1,13 @@
+[Unit]
+Description=Voyager Node API
+
+[Service]
+Type=simple
+User=aaron
+WorkingDirectory=/home/aaron/projects/voyager-api
+ExecStart=/usr/bin/node server.js
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
