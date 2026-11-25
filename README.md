@@ -52,6 +52,17 @@ Build → Understand → Break Safely → Diagnose → Repair → Automate → D
 - Restored remote access and verified connectivity using an external network.
 - Documented incident symptoms, diagnostic steps, and recovery results.
 
+### Phase 4 — Application Hosting & Recovery
+- Deployed a Node.js/Express API on Rocky Linux under a regular user account.
+- Added a JSON health endpoint and a Bash HTTP health check.
+- Configured systemd startup and automatic recovery after process failure.
+- Verified recovery after SIGKILL and application startup after a VM reboot.
+- Accessed the loopback-bound API from macOS through SSH forwarding.
+- Verified that closing the tunnel interrupted Mac access while the local API stayed available.
+- Published application source, dependency manifests, service configuration, and deployment instructions.
+
+[Application hosting checkpoint](proxmox/implementation_Troubleshooting/node-api-service-checkpoint.md) · [Deployment instructions](apps/voyager-api/README.md)
+
 ## Technical Skills Practiced
 
 - Linux systems administration
@@ -62,6 +73,11 @@ Build → Understand → Break Safely → Diagnose → Repair → Automate → D
 - VPN-based remote connectivity
 - System services and configuration management
 - Incident investigation and technical documentation
+- Node.js/Express deployment and npm dependency management
+- Bash health checks and command exit statuses
+- systemd crash recovery and boot verification
+- SSH local forwarding
+- Git staging, commits, and authenticated publishing
 
 ## Lessons Learned
 
@@ -73,11 +89,12 @@ Build → Understand → Break Safely → Diagnose → Repair → Automate → D
 
 ## Roadmap
 
-**Next Milestone — Application Hosting**
-- Deploy a lightweight web application on Rocky Linux.
-- Configure the application as a managed Linux service.
-- Verify access from another device.
-- Perform controlled service failure and recovery tests.
+**Next Checkpoint — Deployment Rebuild Verification**
+- Test the documented API deployment from a clean copy.
+- Capture and record a Proxmox checkpoint snapshot.
+- Add a useful API feature, then introduce PostgreSQL persistence.
+
+HTTP health checks, crash recovery, boot startup, and SSH forwarding have been verified. A clean rebuild and checkpoint snapshot remain pending.
 
 **Future Milestones**
 - Podman containerization.
@@ -92,6 +109,6 @@ Build → Understand → Break Safely → Diagnose → Repair → Automate → D
 
 **Active Development — November 2026**
 
-Current focus: Linux virtualization, networking, remote administration, and preparation for application deployment.
+Current focus: application hosting, service recovery, deployment documentation, and preparation for persistence and containerization.
 
 
