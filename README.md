@@ -61,6 +61,10 @@ Build → Understand → Break Safely → Diagnose → Repair → Automate → D
 - Verified that closing the tunnel interrupted Mac access while the local API stayed available.
 - Published application source, dependency manifests, service configuration, and deployment instructions.
 - Rebuilt the application from a fresh Git checkout and verified routes, health-script behavior, and restoration of the deployed service.
+- Confirmed the installed systemd unit matches its Git version.
+- Created the Proxmox checkpoint snapshot and verified HTTP 200 after starting Rocky again.
+
+Application hosting milestone completed November 26, 2026.
 
 [Application hosting checkpoint](proxmox/implementation_Troubleshooting/node-api-service-checkpoint.md) · [Deployment instructions](apps/voyager-api/README.md)
 
@@ -90,11 +94,7 @@ Build → Understand → Break Safely → Diagnose → Repair → Automate → D
 
 ## Roadmap
 
-**Checkpoint Closeout — Recovery Snapshot**
-- Compare the installed service configuration with the versioned definition.
-- Capture and record a Proxmox checkpoint snapshot.
-
-HTTP health checks, crash recovery, boot startup, SSH forwarding, and a clean-copy application rebuild on the existing Rocky environment have been verified. Final configuration comparison and the checkpoint snapshot remain pending.
+Application hosting and its checkpoint closeout are complete. Verified results include HTTP health checks, crash recovery, boot startup, SSH forwarding, a clean-copy application rebuild on the existing Rocky environment, matching service configuration, and successful checkpoint snapshot creation.
 
 **Next Milestone — Application Data**
 - Add a useful API feature, then introduce PostgreSQL persistence.
