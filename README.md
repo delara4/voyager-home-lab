@@ -60,6 +60,7 @@ Build → Understand → Break Safely → Diagnose → Repair → Automate → D
 - Accessed the loopback-bound API from macOS through SSH forwarding.
 - Verified that closing the tunnel interrupted Mac access while the local API stayed available.
 - Published application source, dependency manifests, service configuration, and deployment instructions.
+- Rebuilt the application from a fresh Git checkout and verified routes, health-script behavior, and restoration of the deployed service.
 
 [Application hosting checkpoint](proxmox/implementation_Troubleshooting/node-api-service-checkpoint.md) · [Deployment instructions](apps/voyager-api/README.md)
 
@@ -89,12 +90,14 @@ Build → Understand → Break Safely → Diagnose → Repair → Automate → D
 
 ## Roadmap
 
-**Next Checkpoint — Deployment Rebuild Verification**
-- Test the documented API deployment from a clean copy.
+**Checkpoint Closeout — Recovery Snapshot**
+- Compare the installed service configuration with the versioned definition.
 - Capture and record a Proxmox checkpoint snapshot.
-- Add a useful API feature, then introduce PostgreSQL persistence.
 
-HTTP health checks, crash recovery, boot startup, and SSH forwarding have been verified. A clean rebuild and checkpoint snapshot remain pending.
+HTTP health checks, crash recovery, boot startup, SSH forwarding, and a clean-copy application rebuild on the existing Rocky environment have been verified. Final configuration comparison and the checkpoint snapshot remain pending.
+
+**Next Milestone — Application Data**
+- Add a useful API feature, then introduce PostgreSQL persistence.
 
 **Future Milestones**
 - Podman containerization.
