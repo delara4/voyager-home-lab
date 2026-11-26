@@ -4,7 +4,7 @@
 |---|---|
 | Period | November 2026, checkpoint published November 24 |
 | System | Rocky Linux 9 VM on Voyager, administered from macOS |
-| Status | API deployed, recovery tests verified, source and configuration published |
+| Status | API deployed, recovery and clean-copy application rebuild verified, snapshot pending |
 | Deployment commit | `12162fb` |
 | Application | Node.js 24.22.1, npm 11.19.1, Express 5.3.0 |
 
@@ -122,13 +122,31 @@ The first commit attempt failed with “Author identity unknown.” Configuring 
 
 GitHub accepted commit `12162fb`, and git status reported a clean checkout up to date with origin/main.
 
+### 8. Verify an application rebuild from Git
+
+On November 26, I completed a rebuild check using a fresh checkout at `~/rebuild-checks/voyager-checkpoint`, at commit `d9829d7`. I installed the locked dependencies with `npm ci`, checked JavaScript syntax with `node --check server.js`, and confirmed that the checkout stayed clean.
+
+I stopped the existing systemd service and used ss to confirm that port 3000 had no listener. The column headings with no rows were the expected result. I then ran Node from the fresh checkout and completed the route and health-script checks.
+
+| Check | Confirmed result |
+|---|---|
+| Dependency installation and syntax | Completed successfully |
+| GET / | HTTP 200 and welcome response |
+| GET /health | HTTP 200 with `{"status":"ok"}` |
+| Missing route | HTTP 404 |
+| Health script against /health | healthy, exit 0 |
+| Health script against missing route | unhealthy, exit 1 |
+| Restore deployed service | Rebuilt foreground process stopped, systemd service restarted, health response verified |
+| Checkout | Clean at `d9829d7` |
+
+These results were confirmed during the guided lab. The exercise verified an application rebuild on the existing Rocky environment. Provisioning a new OS, user account, and runtime remains a separate future recovery exercise.
+
 ## Outcome
 
 The API runs under a regular account, starts after reboot, recovers from the tested process termination, and is reachable through an authenticated SSH tunnel. Source, locked dependencies, service configuration, a health script, and operating instructions are published together.
 
 ## Remaining verification
 
-- Test the documented deployment from a clean copy. A successful push does not establish a successful rebuild.
 - Capture and record a Proxmox snapshot for this checkpoint. Snapshot completion has not been verified.
 - Extend health checks when the application gains data or external dependencies.
 - The earlier host DHCP protection and firewall follow-ups remain open in their respective reports.
