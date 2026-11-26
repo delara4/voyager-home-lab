@@ -4,7 +4,7 @@
 |---|---|
 | Period | November 2026, checkpoint published November 24 |
 | System | Rocky Linux 9 VM on Voyager, administered from macOS |
-| Status | API deployed, recovery and clean-copy application rebuild verified, snapshot pending |
+| Status | Application hosting milestone complete, November 26, 2026 |
 | Deployment commit | `12162fb` |
 | Application | Node.js 24.22.1, npm 11.19.1, Express 5.3.0 |
 
@@ -141,13 +141,27 @@ I stopped the existing systemd service and used ss to confirm that port 3000 had
 
 These results were confirmed during the guided lab. The exercise verified an application rebuild on the existing Rocky environment. Provisioning a new OS, user account, and runtime remains a separate future recovery exercise.
 
+### 9. Complete the configuration and snapshot checks
+
+On November 26, I compared the installed systemd unit with the repository copy using `diff -u`. The comparison produced no output, confirming the files matched.
+
+I shut Rocky down for the checkpoint snapshot and confirmed that the Proxmox snapshot task completed with OK. Following the closeout procedure, the snapshot is named `node-api-checkpoint`. After starting Rocky again, I verified that `/health` returned HTTP 200.
+
+| Final check | Confirmed result |
+|---|---|
+| Installed unit compared with Git copy | Identical, silent diff |
+| Proxmox checkpoint snapshot | Task completed with OK |
+| Health after starting Rocky | HTTP 200 |
+
+The snapshot provides a rollback point on the existing host storage. Snapshot creation and subsequent startup were verified. Restoring the snapshot and recovering from host disk failure remain future exercises.
+
 ## Outcome
 
 The API runs under a regular account, starts after reboot, recovers from the tested process termination, and is reachable through an authenticated SSH tunnel. Source, locked dependencies, service configuration, a health script, and operating instructions are published together.
 
-## Remaining verification
+## Future work
 
-- Capture and record a Proxmox snapshot for this checkpoint. Snapshot completion has not been verified.
+- Practice snapshot restoration and a separate backup recovery exercise.
 - Extend health checks when the application gains data or external dependencies.
 - The earlier host DHCP protection and firewall follow-ups remain open in their respective reports.
 
